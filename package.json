@@ -1,0 +1,13 @@
+{
+  "name": "world-cities-api",
+  "version": "1.0.0",
+  "description": "A Cloudflare Worker providing world cities search API",
+  "scripts": {
+    "build": "node csv_to_json.js && npx json-minify cities.json > cities.min.json",
+    "dev": "wrangler dev",
+    "deploy": "wrangler publish"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10"
+  }
+}

@@ -1,0 +1,8 @@
+name = "world-cities-api"
+main = "worker.js"
+compatibility_date = "2025-04-28"
+type = "module"
+
+
+[vars]
+ENV = "production"
