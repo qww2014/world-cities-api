@@ -3,7 +3,28 @@ import cities from './cities.min.json';
 export default {
   async fetch(request) {
     try {
-      const { searchParams } = new URL(request.url);
+      const url = new URL(request.url);
+      const path = url.pathname;
+      const searchParams = url.searchParams;
+
+      if (path === '/countries') {
+        // 提取所有国家名称
+        const countriesSet = new Set();
+        cities.forEach(item => {
+          if (item.country) countriesSet.add(item.country);
+        });
+        const countries = Array.from(countriesSet).sort();
+
+        return new Response(JSON.stringify({
+          success: true,
+          count: countries.length,
+          countries: countries
+        }), {
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      // 其他路径，按原来逻辑处理城市查询
       const country = searchParams.get('country')?.toLowerCase();
       const city = searchParams.get('city')?.toLowerCase();
 
