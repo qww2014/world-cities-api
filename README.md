@@ -2,7 +2,7 @@
 
  * @Author: Lao Qiao
  * @Date: 2025-04-28 22:42:37
- * @LastEditTime: 2025-04-29 00:47:23
+ * @LastEditTime: 2025-04-30 00:03:44
  * @LastEditors: Lao Qiao
  * @FilePath: /world-cities-api/README.md
  * 我秃了，但我更强了~
@@ -11,6 +11,87 @@
 # world-cities-api
 
 查询全球城市
+
+### 接口请求方式
+
+#### 1、精确搜索
+
+```
+?city=Beijing
+```
+
+#### 2、启用 fallback 搜索
+
+```
+?city=Beijing&fallback=true
+```
+
+## 返回结果
+
+### 1、未提供 city 参数时：
+
+```json
+{
+  "success": false,
+  "status": 404,
+  "message": "未找到匹配的城市",
+  "count": 0,
+  "data": []
+}
+```
+
+### 2、正常搜索未找到结果时：
+
+```json
+{
+  "success": true,
+  "status": 206,  // 206表示返回的是备选城市
+  "count": 数量,
+  "isFallback": true,  // 表示这是备选结果
+  "message": "未找到精确匹配的城市，返回同国家的其他城市",
+  "data": [
+    // 同国家的其他城市，按人口数排序
+  ]
+}
+```
+
+### 3、未找到结果但启用 fallback 且找到同国家城市时：
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "message": "查询成功",
+  "count": 数量,
+  "isFallback": false,
+  "data": [...]
+}
+```
+
+### 4、成功找到匹配结果时：
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "message": "查询成功",
+  "count": 数量,
+  "isFallback": false,
+  "data": [...]
+}
+```
+
+### 5、发生错误时：
+
+```json
+{
+  "success": false,
+  "status": 500,
+  "message": "错误信息",
+  "count": 0,
+  "data": []
+}
+```
 
 小意外：
 通过让 ChatGPT 和 grok 还有 gemini 把 cities.min.json 生成中英文对照表发现
